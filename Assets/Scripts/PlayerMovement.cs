@@ -4,13 +4,14 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movimiento")]
-    public float speed = 5f;         // Velocidad horizontal
-    public float jumpForce = 10f;    // Fuerza del salto
+    public float speed = 5f;
+    public float jumpForce = 10f;
+    public bool invertedControls = false; // Flag de controles invertidos
 
-    [Header("Detecci�n de piso")]
-    public Transform groundCheck;    // Punto para detectar el piso
+    [Header("Detección de piso")]
+    public Transform groundCheck;
     public float groundRadius = 0.2f;
-    public LayerMask groundLayer;    // Capa del suelo
+    public LayerMask groundLayer;
 
     private Rigidbody2D rb;
     private bool isGrounded;
@@ -22,8 +23,11 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        // Movimiento horizontal
+        // Movimiento horizontal (invertido si el flag está activado)
         float move = Input.GetAxisRaw("Horizontal");
+        if (invertedControls)
+            move = -move; // Invierte el control
+
         rb.linearVelocity = new Vector2(move * speed, rb.linearVelocity.y);
 
         // Salto
@@ -32,13 +36,12 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
 
-        // Detecci�n de piso
+        // Detección de piso
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, groundLayer);
     }
 
     void OnDrawGizmosSelected()
     {
-        // Dibuja el c�rculo de detecci�n de piso en la vista de escena
         if (groundCheck != null)
         {
             Gizmos.color = Color.red;
@@ -46,4 +49,3 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 }
-
