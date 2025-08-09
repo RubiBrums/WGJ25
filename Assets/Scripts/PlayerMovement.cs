@@ -17,6 +17,10 @@ public class PlayerMovement : MonoBehaviour
     private Animator anim;
     private bool isGrounded;
     private float moveInput;
+    private bool jumpPressed;
+
+    // bloqueo temporal de control (usado por trampolines)
+    private float controlLockTimer = 0f;
 
     void Start()
     {
@@ -26,28 +30,38 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        // Movimiento horizontal (invertido si está activado)
+        // leer input
         moveInput = Input.GetAxisRaw("Horizontal");
-        if (invertedControls)
-            moveInput = -moveInput;
+        if (invertedControls) moveInput = -moveInput;
+        jumpPressed = Input.GetButtonDown("Jump");
 
-        rb.linearVelocity = new Vector2(moveInput * speed, rb.linearVelocity.y);
+        // detección de suelo (antes de procesar salto)
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, groundLayer);
 
-        // Salto
-        if (isGrounded && Input.GetButtonDown("Jump"))
+        UpdateAnimations();
+
+        // reducir timer de bloqueo
+        if (controlLockTimer > 0f) controlLockTimer -= Time.deltaTime;
+    }
+
+    void FixedUpdate()
+    {
+        bool controlEnabled = controlLockTimer <= 0f;
+
+        // movimiento horizontal (preserva la velocidad vertical)
+        float horizontal = controlEnabled ? moveInput : 0f;
+        rb.linearVelocity = new Vector2(horizontal * speed, rb.linearVelocity.y);
+
+        // salto
+        if (controlEnabled && isGrounded && jumpPressed)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
-
-        // Detección de piso
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, groundLayer);
-
-        // Actualizar animaciones
-        UpdateAnimations();
     }
 
     void UpdateAnimations()
     {
+        if (anim == null) return;
         anim.SetFloat("Speed", Mathf.Abs(moveInput));
         anim.SetBool("IsGrounded", isGrounded);
 
@@ -55,29 +69,40 @@ public class PlayerMovement : MonoBehaviour
         {
             if (rb.linearVelocity.y > 0.1f)
             {
-                // Subiendo
                 anim.SetBool("IsJumping", true);
                 anim.SetBool("IsFalling", false);
             }
             else if (rb.linearVelocity.y < -0.1f)
             {
-                // Cayendo
                 anim.SetBool("IsJumping", false);
                 anim.SetBool("IsFalling", true);
             }
             else
             {
-                // En el aire, pero sin movimiento vertical significativo
                 anim.SetBool("IsJumping", false);
                 anim.SetBool("IsFalling", false);
             }
         }
         else
         {
-            // En el suelo
             anim.SetBool("IsJumping", false);
             anim.SetBool("IsFalling", false);
         }
     }
 
+    // Llamar desde trampolín para aplicar lanzamiento y bloquear control un rato
+    public void Launch(Vector2 velocity, float lockTime = 0.12f)
+    {
+        rb.linearVelocity = velocity;
+        controlLockTimer = lockTime;
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if (groundCheck != null)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(groundCheck.position, groundRadius);
+        }
+    }
 }
