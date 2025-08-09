@@ -112,7 +112,7 @@ ScriptedImporter:
       y: 261
       width: 172
       height: 172
-    spriteID: 5c7dc839efc3d974bae54fbe0a066929
+    spriteID: f1d62035a1d71f641b07bf1f7eedf9b7
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -295,8 +295,8 @@ ScriptedImporter:
     spriteName: Cabeza
     isGroup: 0
     parentIndex: 1
-    spriteID: 5c7dc839efc3d974bae54fbe0a066929
-    layerID: -979107242
+    spriteID: f1d62035a1d71f641b07bf1f7eedf9b7
+    layerID: -619318818
     mosaicPosition: {x: 4, y: 261}
     flatten: 0
     isImported: 1

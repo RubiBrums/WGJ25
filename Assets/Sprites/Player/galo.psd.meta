@@ -112,7 +112,7 @@ ScriptedImporter:
       y: 4
       width: 354
       height: 251
-    spriteID: 54ef58d0451b52b40b24923470193f80
+    spriteID: c86c0d0fab2498a4bac558bbcc2518be
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -156,7 +156,7 @@ ScriptedImporter:
       y: 674
       width: 349
       height: 323
-    spriteID: d6a785b66df7a2c43be1366e4d487026
+    spriteID: cd0aebe30a69df7488899f85b768e8eb
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -178,7 +178,7 @@ ScriptedImporter:
       y: 785
       width: 335
       height: 198
-    spriteID: c16417140cd9488418e0746375383a92
+    spriteID: 3535f09d7a6ad7e4999b59f4185660ee
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -305,8 +305,8 @@ ScriptedImporter:
     spriteName: Ala
     isGroup: 0
     parentIndex: 2
-    spriteID: 54ef58d0451b52b40b24923470193f80
-    layerID: -360893854
+    spriteID: c86c0d0fab2498a4bac558bbcc2518be
+    layerID: -63484590
     mosaicPosition: {x: 599, y: 4}
     flatten: 0
     isImported: 1
@@ -335,8 +335,8 @@ ScriptedImporter:
     spriteName: Cola
     isGroup: 0
     parentIndex: 5
-    spriteID: d6a785b66df7a2c43be1366e4d487026
-    layerID: -547669769
+    spriteID: cd0aebe30a69df7488899f85b768e8eb
+    layerID: -555122431
     mosaicPosition: {x: 4, y: 674}
     flatten: 0
     isImported: 1
@@ -355,8 +355,8 @@ ScriptedImporter:
     spriteName: Cresta
     isGroup: 0
     parentIndex: 7
-    spriteID: c16417140cd9488418e0746375383a92
-    layerID: -1905175636
+    spriteID: 3535f09d7a6ad7e4999b59f4185660ee
+    layerID: -986710544
     mosaicPosition: {x: 599, y: 785}
     flatten: 0
     isImported: 1
