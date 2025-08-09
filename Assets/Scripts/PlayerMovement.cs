@@ -50,16 +50,34 @@ public class PlayerMovement : MonoBehaviour
     {
         anim.SetFloat("Speed", Mathf.Abs(moveInput));
         anim.SetBool("IsGrounded", isGrounded);
-        bool isJumping = !isGrounded && rb.linearVelocity.y > 0.1f;
-        anim.SetBool("IsJumping", isJumping);
-    }
 
-    void OnDrawGizmosSelected()
-    {
-        if (groundCheck != null)
+        if (!isGrounded)
         {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(groundCheck.position, groundRadius);
+            if (rb.linearVelocity.y > 0.1f)
+            {
+                // Subiendo
+                anim.SetBool("IsJumping", true);
+                anim.SetBool("IsFalling", false);
+            }
+            else if (rb.linearVelocity.y < -0.1f)
+            {
+                // Cayendo
+                anim.SetBool("IsJumping", false);
+                anim.SetBool("IsFalling", true);
+            }
+            else
+            {
+                // En el aire, pero sin movimiento vertical significativo
+                anim.SetBool("IsJumping", false);
+                anim.SetBool("IsFalling", false);
+            }
+        }
+        else
+        {
+            // En el suelo
+            anim.SetBool("IsJumping", false);
+            anim.SetBool("IsFalling", false);
         }
     }
+
 }
